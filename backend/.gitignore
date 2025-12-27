@@ -4,5 +4,7 @@ node_modules/
 .idea
 notes.md
 .env.local
-
+*.log
 *.pdf
+.vscodes
+.DS_Store

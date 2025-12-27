@@ -62,8 +62,14 @@ pipeline {
         stage('Push image to DockerHub') {
             steps {
                 echo 'This is Dockerhub image push stage'
-                sh "docker push ebadarshad/erp-frontend:${env.IMAGE_TAG}"
-                sh "docker push ebadarshad/erp-backend:${env.IMAGE_TAG}"
+                parallel(
+                    "Push Frontend": {
+                        sh "docker push ebadarshad/erp-frontend:${env.IMAGE_TAG}"
+                    },
+                    "Push Backend": {
+                        sh "docker push ebadarshad/erp-backend:${env.IMAGE_TAG}"
+                    }
+                )
                 echo 'Pushed image to Dockerhub'
             }
         }
