@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: erp-frontend
-        image: ebadarshad/erp-frontend:0.20
+        image: ebadarshad/erp-frontend:0.23
         ports:
         - containerPort: 80
 
@@ -42,7 +42,7 @@ spec:
     spec:
       containers:
       - name: erp-backend
-        image: ebadarshad/erp-backend:0.20
+        image: ebadarshad/erp-backend:0.23
         ports:
         - containerPort: 3000
         env:
