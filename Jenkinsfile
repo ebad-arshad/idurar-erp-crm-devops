@@ -71,13 +71,12 @@ pipeline {
         stage('Update K8s Manifests in GitHub') {
             steps {
                 script {
-                    sh "cd k8s"
                     // Commit and push to GitHub
                     withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
                         sh """
                             git config user.email 'm.ebadarshad2003@gmail.com'
                             git config user.name 'ebad-arshad'
-                            ls
+                            cd k8s
                             sed -i 's|ebadarshad/erp-frontend:[^ ]*|ebadarshad/erp-frontend:${env.IMAGE_TAG}|g' deployment.yaml
                             sed -i 's|ebadarshad/erp-backend:[^ ]*|ebadarshad/erp-backend:${env.IMAGE_TAG}|g' deployment.yaml
                             git add deployment.yaml
