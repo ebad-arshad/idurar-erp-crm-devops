@@ -61,16 +61,18 @@ pipeline {
         // }
         stage('Push image to DockerHub') {
             steps {
-                parallel(
-                    "Push Frontend": {
-                        sh "docker push ebadarshad/erp-frontend:${env.IMAGE_TAG}"
-                    },
-                    "Push Backend": {
-                        sh "docker push ebadarshad/erp-backend:${env.IMAGE_TAG}"
-                    }
-                )
-                echo 'This is Dockerhub image push stage'
-                echo 'Pushed image to Dockerhub'
+                echo 'Starting Dockerhub image push stage'
+                script {
+                    parallel(
+                        "Push Frontend": {
+                            sh "docker push ebadarshad/erp-frontend:${env.IMAGE_TAG}"
+                        },
+                        "Push Backend": {
+                            sh "docker push ebadarshad/erp-backend:${env.IMAGE_TAG}"
+                        }
+                    )
+                }
+                echo 'Pushed both images to Dockerhub successfully'
             }
         }
         stage('Update K8s Manifests in GitHub') {
