@@ -77,7 +77,7 @@ pipeline {
                         sh """
                             git config user.email 'm.ebadarshad2003@gmail.com'
                             git config user.name 'ebad-arshad'
-                            
+                            ls
                             sed -i 's|ebadarshad/erp-frontend:[^ ]*|ebadarshad/erp-frontend:${env.IMAGE_TAG}|g' deployment.yaml
                             sed -i 's|ebadarshad/erp-backend:[^ ]*|ebadarshad/erp-backend:${env.IMAGE_TAG}|g' deployment.yaml
                             git add deployment.yaml
