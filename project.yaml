@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: erp-project
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/ebad-arshad/idurar-erp-crm-devops.git
+  destinations:
+    - namespace: erp
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

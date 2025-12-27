@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: erp-application
+  namespace: argocd
+spec:
+  project: erp-project
+  source:
+    repoURL: https://github.com/ebad-arshad/idurar-erp-crm-devops.git
+    targetRevision: k8s
+    path: .
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: erp
+  syncPolicy:
+    automated:
+      prune: true       # delete removed manifests
+      selfHeal: true    # fix drift automatically
+    syncOptions:
+      - CreateNamespace=true
