@@ -76,7 +76,6 @@ pipeline {
                         sh """
                             git config user.email 'm.ebadarshad2003@gmail.com'
                             git config user.name 'ebad-arshad'
-                            cd k8s
                             sed -i 's|ebadarshad/erp-frontend:[^ ]*|ebadarshad/erp-frontend:${env.IMAGE_TAG}|g' deployment.yaml
                             sed -i 's|ebadarshad/erp-backend:[^ ]*|ebadarshad/erp-backend:${env.IMAGE_TAG}|g' deployment.yaml
                     
@@ -88,7 +87,7 @@ pipeline {
                             if ! git diff --cached --quiet; then
                                     git commit -m 'ci: update image tags to ${env.IMAGE_TAG}'
                                     
-                                        sh 'git push https://${GIT_TOKEN}@github.com/${GIT_USER}/idurar-erp-crm-devops.git HEAD:k8s'
+                                    git push https://${GIT_TOKEN}@github.com/${GIT_USER}/idurar-erp-crm-devops.git HEAD:k8s
                                 fi
                             """
                         }
