@@ -30,13 +30,8 @@ pipeline {
                 cleanWs()
                 
                 script {
-
-                    // clone('https://github.com/ebad-arshad/idurar-erp-crm-devops', 'master')
-                    // clone('https://github.com/ebad-arshad/idurar-erp-crm-devops', 'k8s')
-
-                    sh "git clone --depth 1 -b master https://github.com/ebad-arshad/idurar-erp-crm-devops master"
-
-                    sh "git clone --depth 1 -b k8s https://github.com/ebad-arshad/idurar-erp-crm-devops k8s"
+                    clone('https://github.com/ebad-arshad/idurar-erp-crm-devops', 'master')
+                    clone('https://github.com/ebad-arshad/idurar-erp-crm-devops', 'k8s')
                 }
             }
         }
