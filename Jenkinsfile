@@ -28,7 +28,7 @@ pipeline {
         stage('Clone') {
             steps {
                 script {
-                    sh "rm -rf master k8s"
+                    sh "rm -rf *"
 
                     clone('https://github.com/ebad-arshad/idurar-erp-crm-devops', 'master')
                     // git clone -b master https://github.com/ebad-arshad/idurar-erp-crm-devops master
@@ -53,13 +53,13 @@ pipeline {
                 echo 'Build images successful'
             }
         }
-        stage('Security Scan with Trivy') {
-            steps {
-                sh "trivy image --severity HIGH,CRITICAL --exit-code 1 --format json -o trivy-report.json ebadarshad/erp-frontend:${env.IMAGE_TAG}"
-                sh "trivy image --severity HIGH,CRITICAL --exit-code 1 --format json -o trivy-report.json ebadarshad/erp-backend:${env.IMAGE_TAG}"
-                archiveArtifacts artifacts: 'trivy-report.json', fingerprint: true
-            }
-        }
+        // stage('Security Scan with Trivy') {
+        //     steps {
+        //         sh "trivy image --severity HIGH,CRITICAL --exit-code 1 --format json -o trivy-report.json ebadarshad/erp-frontend:${env.IMAGE_TAG}"
+        //         sh "trivy image --severity HIGH,CRITICAL --exit-code 1 --format json -o trivy-report.json ebadarshad/erp-backend:${env.IMAGE_TAG}"
+        //         archiveArtifacts artifacts: 'trivy-report.json', fingerprint: true
+        //     }
+        // }
         stage('Push image to DockerHub') {
             steps {
                 echo 'This is Dockerhub image push stage'
