@@ -28,7 +28,7 @@ pipeline {
         stage('Clone') {
             steps {
                 script {
-                    sh "rm -rf master k8s"
+                    sh "rm -rf ."
 
                     clone('https://github.com/ebad-arshad/idurar-erp-crm-devops', 'master')
                     // git clone -b k8s https://github.com/ebad-arshad/idurar-erp-crm-devops master
