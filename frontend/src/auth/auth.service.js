@@ -6,6 +6,8 @@ import successHandler from '@/request/successHandler';
 
 export const login = async ({ loginData }) => {
   try {
+
+    console.log("data hai ye",loginData)
     const response = await axios.post(
       API_BASE_URL + `login?timestamp=${new Date().getTime()}`,
       loginData
