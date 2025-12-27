@@ -6,6 +6,7 @@ metadata:
   labels:
     app: erp-frontend
 spec:
+  revisionHistoryLimit: 2
   replicas: 1
   selector:
     matchLabels:
@@ -31,6 +32,7 @@ metadata:
   labels:
     app: erp-backend
 spec:
+  revisionHistoryLimit: 2
   replicas: 1
   selector:
     matchLabels:
