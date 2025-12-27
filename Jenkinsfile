@@ -82,14 +82,16 @@ pipeline {
                     
                             git add deployment.yaml
                     
-                            if ! git diff --cached --quiet; then
-                                git commit -m 'ci: update image tags to ${env.IMAGE_TAG}'
-                                
-                                withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
-                                    sh 'git push https://${GIT_TOKEN}@github.com/${GIT_USER}/idurar-erp-crm-devops.git HEAD:k8s'
-                                }
-                            fi
                         """
+                        withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+                            sh """
+                            if ! git diff --cached --quiet; then
+                                    git commit -m 'ci: update image tags to ${env.IMAGE_TAG}'
+                                    
+                                        sh 'git push https://${GIT_TOKEN}@github.com/${GIT_USER}/idurar-erp-crm-devops.git HEAD:k8s'
+                                fi
+                            """
+                        }
                     }
                 }
             }
