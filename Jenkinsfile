@@ -2,7 +2,9 @@
 
 pipeline {
     agent { label 'slave' }
-
+    options {
+        skipDefaultCheckout() 
+    }
     stages {
         stage('Version Calculation') {
             steps {
