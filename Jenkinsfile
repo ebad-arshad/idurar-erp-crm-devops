@@ -71,21 +71,23 @@ pipeline {
         stage('Update K8s Manifests in GitHub') {
             steps {
                 script {
-                    sh "cd k8s"
-                    // Commit and push to GitHub
-                    withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+                    dir('k8s') {
+                        // Commit and push to GitHub
                         sh """
                             git config user.email 'm.ebadarshad2003@gmail.com'
                             git config user.name 'ebad-arshad'
                             
                             sed -i 's|ebadarshad/erp-frontend:[^ ]*|ebadarshad/erp-frontend:${env.IMAGE_TAG}|g' deployment.yaml
                             sed -i 's|ebadarshad/erp-backend:[^ ]*|ebadarshad/erp-backend:${env.IMAGE_TAG}|g' deployment.yaml
+                    
                             git add deployment.yaml
-                            if git diff --cached --quiet; then
-                                echo 'No changes to commit'
-                            else
+                    
+                            if ! git diff --cached --quiet; then
                                 git commit -m 'ci: update image tags to ${env.IMAGE_TAG}'
-                                git push https://${GIT_TOKEN}@github.com/ebad-arshad/idurar-erp-crm-devops.git
+                                
+                                withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+                                    sh 'git push https://${GIT_TOKEN}@github.com/${GIT_USER}/idurar-erp-crm-devops.git HEAD:k8s'
+                                }
                             fi
                         """
                     }
