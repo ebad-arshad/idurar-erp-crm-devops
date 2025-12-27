@@ -79,7 +79,6 @@ pipeline {
             steps {
                 script {
                     dir('k8s') {
-                        // Commit and push to GitHub
                         sh """
                             git config user.email 'm.ebadarshad2003@gmail.com'
                             git config user.name 'ebad-arshad'
