@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  namespace: erp
+spec:
+  clusterIP: None
+  selector:
+    app: mongo
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: erp-frontend
+  namespace: erp
+spec:
+  selector:
+    app: erp-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: erp-backend
+  namespace: erp
+spec:
+  selector:
+    app: erp-backend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

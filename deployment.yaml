@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: erp-frontend
+  namespace: erp
+  labels:
+    app: erp-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: erp-frontend
+  template:
+    metadata:
+      labels:
+        app: erp-frontend
+    spec:
+      containers:
+      - name: erp-frontend
+        image: ebadarshad/erp-frontend:latest
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: erp-backend
+  namespace: erp
+  labels:
+    app: erp-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: erp-backend
+  template:
+    metadata:
+      labels:
+        app: erp-backend
+    spec:
+      containers:
+      - name: erp-backend
+        image: ebadarshad/erp-backend:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DATABASE
+          value: "mongodb://root:password@mongo:27017/erp?authSource=admin"
+        - name: JWT_SECRET
+          value: "018382de"
+        - name: NODE_ENV
+          value: "development"
+        - name: OPENSSL_CONF
+          value: "/dev/null"
+        - name: PUBLIC_SERVER_FILE
+          value: "http://erp-frontend:80/"
+        - name: PORT
+          value: "3000"
