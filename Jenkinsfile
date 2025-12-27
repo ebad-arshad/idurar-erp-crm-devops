@@ -27,14 +27,17 @@ pipeline {
         }
         stage('Clone') {
             steps {
+                cleanWs()
+                
                 script {
-                    sh "rm -rf *"
 
-                    clone('https://github.com/ebad-arshad/idurar-erp-crm-devops', 'master')
-                    // git clone -b master https://github.com/ebad-arshad/idurar-erp-crm-devops master
+                    sh """
+                        // clone('https://github.com/ebad-arshad/idurar-erp-crm-devops', 'master')
+                        git clone --depth 1 -b master https://github.com/ebad-arshad/idurar-erp-crm-devops master
 
-                    clone('https://github.com/ebad-arshad/idurar-erp-crm-devops', 'k8s')
-                    // git clone -b k8s https://github.com/ebad-arshad/idurar-erp-crm-devops k8s
+                        // clone('https://github.com/ebad-arshad/idurar-erp-crm-devops', 'k8s')
+                        git clone --depth 1 -b k8s https://github.com/ebad-arshad/idurar-erp-crm-devops k8s
+                    """
                 }
             }
         }
@@ -84,7 +87,7 @@ pipeline {
                         """
                         withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
                             sh """
-                            if ! git diff --cached --quiet; then
+                                if ! git diff --cached --quiet; then
                                     git commit -m 'ci: update image tags to ${env.IMAGE_TAG}'
                                     
                                     git push https://${GIT_TOKEN}@github.com/${GIT_USER}/idurar-erp-crm-devops.git HEAD:k8s
@@ -95,29 +98,5 @@ pipeline {
                 }
             }
         }
-        // stage('Deploy') {
-        //     steps {
-        //         echo 'This is deploy stage'
-        //         sh 'docker compose down'
-        //         sh "APP_VERSION=${env.IMAGE_TAG} docker compose up --build -d"
-        //         echo "Deployed version: ${env.IMAGE_TAG}"
-
-        //         // sh """
-        //         // cd ./k8s 
-        //         // kubectl apply -f namespace.yaml
-        //         // kubectl apply -f secret.yaml
-        //         // kubectl apply -f pv.yaml
-        //         // kubectl apply -f pvc.yaml
-        //         // kubectl apply -f service.yaml
-        //         // kubectl apply -f hpa.yaml
-        //         // kubectl apply -f statefulset.yaml
-        //         // kubectl apply -f deployment.yaml 
-
-        //         // Thread.sleep(10000)
-
-        //         // kubectl port-forward svc/erp-frontend -n smp 80:80 --address=0.0.0.0 &               
-        //         // """
-        //     }
-        // }
     }
 }
