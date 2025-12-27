@@ -31,7 +31,7 @@ pipeline {
                     sh "rm -rf master k8s"
 
                     clone('https://github.com/ebad-arshad/idurar-erp-crm-devops', 'master')
-                    // git clone -b k8s https://github.com/ebad-arshad/idurar-erp-crm-devops master
+                    // git clone -b master https://github.com/ebad-arshad/idurar-erp-crm-devops master
 
                     clone('https://github.com/ebad-arshad/idurar-erp-crm-devops', 'k8s')
                     // git clone -b k8s https://github.com/ebad-arshad/idurar-erp-crm-devops k8s
@@ -71,20 +71,20 @@ pipeline {
         stage('Update K8s Manifests in GitHub') {
             steps {
                 script {
-                    
+                    sh "cd k8s"
                     // Commit and push to GitHub
                     withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
                         sh """
-                            git config user.email "m.ebadarshad2003@gmail.com"
-                            git config user.name "ebad-arshad"
-                            cd k8s
+                            git config user.email 'm.ebadarshad2003@gmail.com'
+                            git config user.name 'ebad-arshad'
+                            
                             sed -i 's|ebadarshad/erp-frontend:[^ ]*|ebadarshad/erp-frontend:${env.IMAGE_TAG}|g' deployment.yaml
                             sed -i 's|ebadarshad/erp-backend:[^ ]*|ebadarshad/erp-backend:${env.IMAGE_TAG}|g' deployment.yaml
                             git add deployment.yaml
                             if git diff --cached --quiet; then
-                                echo "No changes to commit"
+                                echo 'No changes to commit'
                             else
-                                git commit -m "ci: update image tags to ${env.IMAGE_TAG}"
+                                git commit -m 'ci: update image tags to ${env.IMAGE_TAG}'
                                 git push https://${GIT_TOKEN}@github.com/ebad-arshad/idurar-erp-crm-devops.git
                             fi
                         """
