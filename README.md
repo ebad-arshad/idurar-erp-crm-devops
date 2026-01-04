@@ -1,6 +1,6 @@
-# IDURAR ERP/CRM - Full Stack GitOps Pipeline
+# ERP/CRM - Full Stack GitOps Pipeline
 
-This repository contains the DevOps transformation of the IDURAR ERP/CRM (MERN Stack) application. It demonstrates a complete automated lifecycle using **Jenkins** for Continuous Integration and **ArgoCD** for GitOps-based Continuous Delivery.
+This repository contains the DevOps transformation of the ERP/CRM (MERN Stack) application. It demonstrates a complete automated lifecycle using **Jenkins** for Continuous Integration and **ArgoCD** for GitOps-based Continuous Delivery.
 
 
 
@@ -45,20 +45,3 @@ Deployment is handled via the GitOps methodology:
 
 
 ---
-
-## 🚀 How to Replicate
-
-### Prerequisites
-- Jenkins server with Docker and Pipeline plugins installed.
-- Kubernetes cluster with ArgoCD installed.
-- DockerHub account and credentials configured in Jenkins.
-
-### Step-by-Step
-1. **Jenkins Job:** Create a Pipeline job in Jenkins pointing to the `master` branch.
-2. **K8s Manifests:** Ensure the `k8s` branch contains the correct service and deployment files.
-3. **ArgoCD App:** ```bash
-   argocd app create idurar-erp \
-     --repo [https://github.com/ebad-arshad/idurar-erp-crm-devops.git](https://github.com/ebad-arshad/idurar-erp-crm-devops.git) \
-     --path . \
-     --dest-server [https://kubernetes.default.svc](https://kubernetes.default.svc) \
-     --revision argocd
